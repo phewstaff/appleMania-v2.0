@@ -1,3 +1,5 @@
+"use client";
+
 import { apiStoreService } from "../../services/apiStoreService";
 import "./Categories.scss";
 import { ToastContainer } from "react-toastify";
@@ -8,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import Category from "./Category";
 import Loading from "../loading/Loading";
+
 const categoryFormSchema = yup
   .object()
   .shape({

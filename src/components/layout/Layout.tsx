@@ -1,7 +1,10 @@
+"use client";
+
 import React, { FC } from "react";
-import { useNavigate } from "react-router-dom";
-import { images } from "../../assets/constants";
+
 import "./Layout.scss";
+import { images } from "@/assets/constants";
+import Image from "next/image";
 interface IProps {
   children: React.ReactNode;
   basket: boolean;
@@ -10,26 +13,21 @@ interface IProps {
 }
 
 const Layout: FC<IProps> = ({ children, title, backButton, basket }) => {
-  const navigate = useNavigate();
-  const backClickHandler = () => {
-    navigate(-1);
-  };
-  const basketClickHandler = () => {
-    navigate("/basket");
-  };
+  const backClickHandler = () => {};
+  const basketClickHandler = () => {};
   return (
     <>
       <header>
         <div className="header-container">
           <div className="back-button">
             {backButton && (
-              <img onClick={backClickHandler} src={images.back} alt="" />
+              <Image onClick={backClickHandler} src={images.back} alt="" />
             )}
           </div>
-          <img src={images.blogo} alt="" className="apple-logo" />
+          <Image src={images.blogo} alt="" className="apple-logo" />
           <div className="basket-button">
             {basket && (
-              <img onClick={basketClickHandler} src={images.basket} alt="" />
+              <Image onClick={basketClickHandler} src={images.basket} alt="" />
             )}
           </div>
         </div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { baseUrl } from "../../consts";
 import { apiStoreService } from "../../services/apiStoreService";
 import "./Categories.scss";
@@ -30,7 +30,7 @@ const Category: React.FC<CategoryProps> = ({
     apiStoreService.useDeleteCategoryMutation();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   return (
     <div key={id} className="category-card">
@@ -62,7 +62,7 @@ const Category: React.FC<CategoryProps> = ({
       )}
       <div className="category-image">
         <img
-          onClick={() => navigate(`/products/category/${id}`)}
+          // onClick={() => navigate(`/products/category/${id}`)}
           src={baseUrl + image}
           alt=""
         />

@@ -1,1 +1,1 @@
-export const baseUrl = "https://applemania-new-api.onrender.com/api/";
+export const baseUrl = "http://localhost:3000/api";
