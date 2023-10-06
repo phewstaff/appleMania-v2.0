@@ -7,9 +7,10 @@ import { useAppSelector } from "../../hooks/redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Category from "./Category";
 import Loading from "../loading/Loading";
+import { useUploadThing } from "@/utils/uploadthing";
 
 const categoryFormSchema = yup
   .object()
@@ -25,6 +26,8 @@ const Categories: React.FC = () => {
   const admin = useAppSelector((state) => {
     return state.auth.admin;
   });
+
+  const [files, setFiles] = useState<File[]>([]);
 
   const [value, setValue] = useState<string | undefined>();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -69,6 +72,33 @@ const Categories: React.FC = () => {
     isLoading,
     error,
   } = apiStoreService.useFetchCategoriesQuery();
+
+  const { startUpload } = useUploadThing("imageUploader");
+
+  const handleImage = (
+    e: ChangeEvent<HTMLInputElement>,
+    fieldChange: (value: string) => void
+  ) => {
+    e.preventDefault();
+
+    const fileReader = new FileReader();
+
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setFiles(Array.from(e.target.files));
+
+      if (!file.type.includes("image")) return;
+
+      fileReader.onload = async (event) => {
+        const imageDataUrl = event.target?.result?.toString() || "";
+        fieldChange(imageDataUrl);
+      };
+
+      fileReader.readAsDataURL(file);
+    }
+  };
+
+  //TO DO    https://codesandbox.io/p/sandbox/github/adrianhajdin/threads/tree/main?file=%2Fcomponents%2Fforms%2FAccountProfile.tsx%3A45%2C2-45%2C50
 
   return (
     <>
