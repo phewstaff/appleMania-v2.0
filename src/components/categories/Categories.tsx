@@ -105,10 +105,9 @@ const Categories: React.FC = () => {
       <ToastContainer position="bottom-right" />
       {isLoading && <Loading />}
       <div className="categories-container">
-        {admin && (
+        {!admin && (
           <div className="add-category">
             <input
-              value={value}
               onChangeCapture={(e) => {
                 setValue(e.currentTarget.value);
               }}
@@ -127,12 +126,13 @@ const Categories: React.FC = () => {
               />
             </label>
 
-            <label
+            <button
+              type="submit"
               className="submit-button"
               onClick={handleSubmit(addOrUpdateCategory)}
             >
               {!currentCategoryId ? <>Post category</> : <>Update Category</>}
-            </label>
+            </button>
           </div>
         )}
         {error && <h1>Error</h1>}
