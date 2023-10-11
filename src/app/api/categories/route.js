@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import Category from "@/models/category";
 import connectMongoDB from "@/libs/mongodb";
 
@@ -6,6 +6,17 @@ export async function GET() {
   await connectMongoDB();
   const categories = await Category.find();
   return NextResponse.json(categories);
+}
+export async function POST(request) {
+  await connectMongoDB();
+  const formData = await request.formData();
+  let body = Object.fromEntries(formData);
+  try {
+    const category = await Category.create({ ...body });
+    return NextResponse.json(category);
+  } catch (error) {
+    console.error("Error creating category:", error);
+  }
 }
 
 export async function DELETE(req) {
