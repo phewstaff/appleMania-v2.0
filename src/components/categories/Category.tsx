@@ -48,7 +48,7 @@ const Category: React.FC<CategoryProps> = ({
           });
         }}
       />
-      {admin && (
+      {!admin && (
         <div
           onClick={() => {
             setIsOpen(true);
@@ -63,7 +63,7 @@ const Category: React.FC<CategoryProps> = ({
       <div className="category-image">
         <img
           // onClick={() => navigate(`/products/category/${id}`)}
-          src={baseUrl + image}
+          src={image}
           alt=""
         />
       </div>

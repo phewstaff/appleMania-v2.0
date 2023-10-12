@@ -16,7 +16,7 @@ const categoryFormSchema = yup
   .object()
   .shape({
     name: yup.string().required().max(30),
-    image: yup.mixed().required(),
+    file: yup.mixed().required(),
   })
   .required();
 
@@ -56,7 +56,7 @@ const Categories: React.FC = () => {
   const addOrUpdateCategory = async (data: FormData) => {
     const formData = new FormData();
     formData.append("name", data.name);
-    formData.append("image", selectedFile as File);
+    formData.append("file", selectedFile as File);
     if (currentCategoryId) {
       await updateCategory({ currentCategoryId, formData });
     } else {
@@ -118,7 +118,7 @@ const Categories: React.FC = () => {
             <label className="choose-image">
               Choose image
               <input
-                {...register("image")}
+                {...register("file")}
                 onChange={handleFileChange}
                 name="image"
                 type="file"
