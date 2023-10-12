@@ -61,7 +61,8 @@ export const apiStoreService = createApi({
     deleteCategory: build.mutation<string, string>({
       query: (id) => ({
         method: "DELETE",
-        url: `categories/${id}`,
+        url: "categories",
+        params: { id },
       }),
     }),
 
