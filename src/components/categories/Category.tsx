@@ -10,7 +10,7 @@ type CategoryProps = {
   admin: boolean;
   id: string;
   name: string;
-  image: string;
+  image: { key: string; url: string };
   setValue: React.Dispatch<React.SetStateAction<string | undefined>>;
   setCurrentCategoryId: React.Dispatch<
     React.SetStateAction<string | undefined>
@@ -32,6 +32,7 @@ const Category: React.FC<CategoryProps> = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   // const navigate = useNavigate();
 
+  const key = image.key;
   return (
     <div key={id} className="category-card">
       <CategoryDropdown
@@ -43,12 +44,12 @@ const Category: React.FC<CategoryProps> = ({
           setValue(name);
         }}
         onDelete={() => {
-          return deleteCategory(id).then(() => {
+          return deleteCategory({ id, key }).then(() => {
             refetch();
           });
         }}
       />
-      {admin && (
+      {!admin && (
         <div
           onClick={() => {
             setIsOpen(true);
@@ -63,7 +64,7 @@ const Category: React.FC<CategoryProps> = ({
       <div className="category-image">
         <img
           // onClick={() => navigate(`/products/category/${id}`)}
-          src={baseUrl + image}
+          src={image.url}
           alt=""
         />
       </div>
