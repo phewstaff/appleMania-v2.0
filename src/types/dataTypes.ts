@@ -25,7 +25,7 @@ export interface IProduct {
 export interface ICategory {
   _id: string;
   name: string;
-  image: string;
+  image: { url: string; key: string };
   imageMin: string;
   __v: number;
 }

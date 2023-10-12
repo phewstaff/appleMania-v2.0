@@ -15,11 +15,10 @@ export async function POST(request: NextRequest) {
 
   const files = formData.getAll("file");
   const uploadedFiles = await utapi.uploadFiles(files);
-  const fileURL = uploadedFiles[0].data?.url;
-
+  const fileData = uploadedFiles[0].data;
   try {
-    if (fileURL) {
-      const category = await Category.create({ name, image: fileURL });
+    if (fileData) {
+      const category = await Category.create({ name, image: fileData });
       return NextResponse.json(category);
     }
   } catch (error) {
@@ -30,15 +29,16 @@ export async function POST(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   await connectMongoDB();
   const id = request.nextUrl.searchParams.get("id");
-  console.log(id);
+  const key = request.nextUrl.searchParams.get("key");
 
   try {
     // Check if the ID is valid
-    if (!id) {
-      throw new Error("Category ID is missing.");
+    if (!id || !key) {
+      throw new Error("Category ID or key is missing.");
     }
 
     const deletedCategory = await Category.findByIdAndDelete(id);
+    await utapi.deleteFiles(key);
 
     if (!deletedCategory) {
       throw new Error("Category not found.");

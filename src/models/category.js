@@ -3,8 +3,10 @@ const mongoose = require("mongoose");
 const categorySchema = mongoose.Schema({
   name: String,
   image: {
-    type: String,
-    default: "files\\defaultfood.jpg",
+    url: String,
+    key: String,
+    name: String,
+    size: Number,
   },
   imageMin: {
     type: String,
