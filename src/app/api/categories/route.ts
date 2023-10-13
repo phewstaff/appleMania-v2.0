@@ -3,11 +3,6 @@ import Category from "@/models/category";
 import connectMongoDB from "@/libs/mongodb";
 import { utapi } from "uploadthing/server";
 
-export async function GET() {
-  await connectMongoDB();
-  const categories = await Category.find();
-  return NextResponse.json(categories);
-}
 export async function POST(request: NextRequest) {
   await connectMongoDB();
   const formData = await request.formData();
@@ -48,5 +43,60 @@ export async function DELETE(request: NextRequest) {
   } catch (error: any) {
     console.error("Error deleting category:", error);
     return NextResponse.json({ error: error.message });
+  }
+}
+
+export async function GET() {
+  await connectMongoDB();
+  const categories = await Category.find();
+  return NextResponse.json(categories);
+}
+
+export async function PUT(request: NextRequest) {
+  let uploadedFiles;
+  await connectMongoDB();
+  const formData = await request.formData();
+
+  const name = formData.get("name");
+  const files = formData.get("file");
+
+  const id = request.nextUrl.searchParams.get("currentCategoryId");
+  const key = request.nextUrl.searchParams.get("key");
+
+  if (files !== null && files !== undefined) {
+    console.log("it happens", files);
+    uploadedFiles = await utapi.uploadFiles(files);
+  }
+
+  const fileData = uploadedFiles ? uploadedFiles.data : null;
+  console.log("first");
+
+  try {
+    console.log("second");
+    if (!id || !key) {
+      throw new Error("Id or key is missing");
+    }
+
+    const currentCategory = await Category.find({ _id: id });
+    console.log("current category", currentCategory);
+
+    const editedCategory = await Category.findByIdAndUpdate(
+      id,
+      {
+        name: name ? name : currentCategory.name,
+        image: fileData ? fileData : { ...currentCategory.image },
+      },
+      { new: true }
+    );
+
+    utapi.deleteFiles(key);
+
+    return NextResponse.json(editedCategory, { status: 200 });
+  } catch (error) {
+    console.error("Error updating category:", error);
+    return NextResponse.json(
+      { error: "Could not update category" },
+      { status: 400 }
+    );
   }
 }
