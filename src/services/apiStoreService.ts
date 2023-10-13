@@ -68,11 +68,18 @@ export const apiStoreService = createApi({
 
     updateCategory: build.mutation<
       ICategory,
-      { currentCategoryId: string; formData: FormData }
+      {
+        formData: FormData;
+        params: {
+          currentCategoryId: string | undefined;
+          key: string | undefined;
+        };
+      }
     >({
-      query: ({ formData, currentCategoryId }) => ({
-        method: "PATCH",
-        url: `categories/${currentCategoryId}`,
+      query: ({ formData, params }) => ({
+        method: "PUT",
+        url: `categories`,
+        params: { ...params },
         body: formData,
       }),
     }),
