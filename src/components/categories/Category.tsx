@@ -15,6 +15,7 @@ type CategoryProps = {
   setCurrentCategoryId: React.Dispatch<
     React.SetStateAction<string | undefined>
   >;
+  setKey: React.Dispatch<React.SetStateAction<string | undefined>>;
 };
 
 const Category: React.FC<CategoryProps> = ({
@@ -24,6 +25,7 @@ const Category: React.FC<CategoryProps> = ({
   image,
   setValue,
   setCurrentCategoryId,
+  setKey,
   admin,
 }) => {
   const [deleteCategory, response] =
@@ -37,7 +39,9 @@ const Category: React.FC<CategoryProps> = ({
     <div key={id} className="category-card">
       <CategoryDropdown
         setCurrentCategoryId={setCurrentCategoryId}
+        setKey={setKey}
         id={id}
+        ImageKey={key}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         onUpdate={() => {
