@@ -58,22 +58,25 @@ export async function PUT(request: NextRequest) {
   const formData = await request.formData();
 
   const name = formData.get("name");
-  const files = formData.get("file");
+  const files = formData.getAll("file");
 
   const id = request.nextUrl.searchParams.get("currentCategoryId");
   const key = request.nextUrl.searchParams.get("key");
 
-  if (files !== null && files !== undefined) {
-    console.log("it happens", files);
+  console.log(key);
+
+  if (files[0] != "null") {
+    console.log("it happens", files[0]);
     uploadedFiles = await utapi.uploadFiles(files);
+    if (key) await utapi.deleteFiles(key);
   }
 
-  const fileData = uploadedFiles ? uploadedFiles.data : null;
+  const fileData = uploadedFiles ? uploadedFiles[0].data : null;
   console.log("first");
 
   try {
     console.log("second");
-    if (!id || !key) {
+    if (!id) {
       throw new Error("Id or key is missing");
     }
 
@@ -84,12 +87,10 @@ export async function PUT(request: NextRequest) {
       id,
       {
         name: name ? name : currentCategory.name,
-        image: fileData ? fileData : { ...currentCategory.image },
+        image: fileData ? fileData : currentCategory.image,
       },
       { new: true }
     );
-
-    utapi.deleteFiles(key);
 
     return NextResponse.json(editedCategory, { status: 200 });
   } catch (error) {
