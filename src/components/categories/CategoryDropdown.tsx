@@ -3,6 +3,7 @@ import "./Categories.scss";
 
 type CategoryDropdownProps = {
   id: string;
+  ImageKey: string;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   onUpdate: () => void;
@@ -10,6 +11,7 @@ type CategoryDropdownProps = {
   setCurrentCategoryId: React.Dispatch<
     React.SetStateAction<string | undefined>
   >;
+  setKey: React.Dispatch<React.SetStateAction<string | undefined>>;
 };
 
 const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
@@ -19,6 +21,8 @@ const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
   id,
   isOpen,
   setIsOpen,
+  ImageKey,
+  setKey,
 }) => {
   return (
     <>
@@ -35,6 +39,7 @@ const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
               onClick={() => {
                 onUpdate();
                 setCurrentCategoryId(id);
+                setKey(ImageKey);
               }}
             >
               Update

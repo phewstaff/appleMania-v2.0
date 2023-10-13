@@ -47,6 +47,8 @@ const Categories: React.FC = () => {
     string | undefined
   >();
 
+  const [key, setKey] = useState<string | undefined>();
+
   const [postCategory, { isError }] =
     apiStoreService.useCreateCategoryMutation();
 
@@ -57,8 +59,12 @@ const Categories: React.FC = () => {
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("file", selectedFile as File);
-    if (currentCategoryId) {
-      await updateCategory({ currentCategoryId, formData });
+    if (currentCategoryId && key) {
+      console.log("update");
+      await updateCategory({
+        formData,
+        params: { currentCategoryId, key: key },
+      });
     } else {
       await postCategory(formData);
     }
@@ -148,6 +154,7 @@ const Categories: React.FC = () => {
                   name={item.name}
                   image={item.image}
                   setCurrentCategoryId={setCurrentCategoryId}
+                  setKey={setKey}
                   refetch={invalidateCategories}
                 />
               );
