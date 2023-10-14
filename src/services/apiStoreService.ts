@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 import Cookies from "js-cookie";
 import { baseUrl } from "../consts";
-import { ICategory, IProduct } from "../types/dataTypes";
+import { ICategory, IProduct } from "../types";
 
 interface IBody {
   username: string;

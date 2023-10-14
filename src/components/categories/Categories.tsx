@@ -1,15 +1,16 @@
 "use client";
 
-import { apiStoreService } from "../../services/apiStoreService";
+import Category from "./Category";
 import "./Categories.scss";
+
+import { apiStoreService } from "@/services/apiStoreService";
 import { ToastContainer } from "react-toastify";
-import { useAppSelector } from "../../hooks/redux";
+import { useAppSelector } from "@/hooks/redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { ChangeEvent, useState } from "react";
-import Category from "./Category";
-import Loading from "../loading/Loading";
+import Loading from "@/components/loading";
 import { useUploadThing } from "@/utils/uploadthing";
 
 const categoryFormSchema = yup

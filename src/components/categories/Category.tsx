@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 // import { useNavigate } from "react-router-dom";
-import { baseUrl } from "../../consts";
 import { apiStoreService } from "../../services/apiStoreService";
 import "./Categories.scss";
 import CategoryDropdown from "./CategoryDropdown";
