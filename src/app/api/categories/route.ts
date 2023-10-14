@@ -4,15 +4,20 @@ import connectMongoDB from "@/libs/mongodb";
 import { utapi } from "uploadthing/server";
 
 export async function POST(request: NextRequest) {
+  let uploadedFiles;
   await connectMongoDB();
   const formData = await request.formData();
   const name = formData.get("name");
 
   const files = formData.getAll("file");
-  const uploadedFiles = await utapi.uploadFiles(files);
-  const fileData = uploadedFiles[0].data;
+
+  if (files[0] !== "null") {
+    uploadedFiles = await utapi.uploadFiles(files);
+  }
+
+  const fileData = uploadedFiles ? uploadedFiles[0].data : null;
   try {
-    if (fileData) {
+    if (fileData && name) {
       const category = await Category.create({ name, image: fileData });
       return NextResponse.json(category);
     }
