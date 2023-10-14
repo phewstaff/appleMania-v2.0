@@ -4,6 +4,7 @@ import { baseUrl } from "../../consts";
 import { apiStoreService } from "../../services/apiStoreService";
 import "./Categories.scss";
 import CategoryDropdown from "./CategoryDropdown";
+import Image from "next/image";
 
 type CategoryProps = {
   refetch: () => void;
@@ -66,7 +67,9 @@ const Category: React.FC<CategoryProps> = ({
         </div>
       )}
       <div className="category-image">
-        <img
+        <Image
+          height={140}
+          width={128}
           // onClick={() => navigate(`/products/category/${id}`)}
           src={image.url}
           alt=""

@@ -16,7 +16,7 @@ const Layout: FC<IProps> = ({ children, title, backButton, basket }) => {
   const backClickHandler = () => {};
   const basketClickHandler = () => {};
   return (
-    <>
+    <div className="w-96 m-auto">
       <header>
         <div className="header-container">
           <div className="back-button">
@@ -37,7 +37,7 @@ const Layout: FC<IProps> = ({ children, title, backButton, basket }) => {
         </div>
       </header>
       <main> {children}</main>
-    </>
+    </div>
   );
 };
 
