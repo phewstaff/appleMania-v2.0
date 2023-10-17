@@ -1,8 +1,8 @@
 "use client";
 
 import Category from "./Category";
-import "./Categories.scss";
 
+import "./Categories.scss";
 import { apiStoreService } from "@/services/apiStoreService";
 import { ToastContainer } from "react-toastify";
 import { useAppSelector } from "@/hooks/redux";
@@ -11,7 +11,6 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { ChangeEvent, useState } from "react";
 import Loading from "@/components/loading";
-import { useUploadThing } from "@/utils/uploadthing";
 
 const categoryFormSchema = yup
   .object()
@@ -27,9 +26,7 @@ const Categories: React.FC = () => {
   const admin = useAppSelector((state) => {
     return state.auth.admin;
   });
-
   const [files, setFiles] = useState<File[]>([]);
-
   const [value, setValue] = useState<string | undefined>();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,22 +37,15 @@ const Categories: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({
-    resolver: yupResolver(categoryFormSchema),
-  });
-
+  } = useForm<FormData>({ resolver: yupResolver(categoryFormSchema) });
   const [currentCategoryId, setCurrentCategoryId] = useState<
     string | undefined
   >();
-
   const [key, setKey] = useState<string | undefined>();
-
   const [postCategory, { isError }] =
     apiStoreService.useCreateCategoryMutation();
-
   const [updateCategory, { isError: updateError }] =
     apiStoreService.useUpdateCategoryMutation();
-
   const addOrUpdateCategory = async (data: FormData) => {
     const formData = new FormData();
     formData.append("name", data.name);
@@ -79,33 +69,6 @@ const Categories: React.FC = () => {
     isLoading,
     error,
   } = apiStoreService.useFetchCategoriesQuery();
-
-  const { startUpload } = useUploadThing("imageUploader");
-
-  const handleImage = (
-    e: ChangeEvent<HTMLInputElement>,
-    fieldChange: (value: string) => void
-  ) => {
-    e.preventDefault();
-
-    const fileReader = new FileReader();
-
-    if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0];
-      setFiles(Array.from(e.target.files));
-
-      if (!file.type.includes("image")) return;
-
-      fileReader.onload = async (event) => {
-        const imageDataUrl = event.target?.result?.toString() || "";
-        fieldChange(imageDataUrl);
-      };
-
-      fileReader.readAsDataURL(file);
-    }
-  };
-
-  //TO DO    https://codesandbox.io/p/sandbox/github/adrianhajdin/threads/tree/main?file=%2Fcomponents%2Fforms%2FAccountProfile.tsx%3A45%2C2-45%2C50
 
   return (
     <>
