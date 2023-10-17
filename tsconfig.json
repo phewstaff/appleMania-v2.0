@@ -29,7 +29,8 @@
     ".next/types/**/*.ts",
     "src/models/category.js",
     "src/libs/mongodb.js",
-    "src/app/api/categories/route.ts"
+    "src/app/api/categories/route.ts",
+    "tailwind.config.ts"
   ],
   "exclude": ["node_modules"]
 }
