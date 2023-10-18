@@ -1,9 +1,7 @@
-import { FC } from "react";
+import Products from "@/components/products/Products";
 
-interface pageProps {}
-
-const page: FC<pageProps> = ({}) => {
-  return <div>page</div>;
+const page = () => {
+  return <>products</>;
 };
 
 export default page;

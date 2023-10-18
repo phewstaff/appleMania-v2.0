@@ -1,21 +1,9 @@
 export interface IProduct {
   _id?: string;
   name?: string;
-  image1?: {
-    lg: string;
-    sm: string;
-  };
-  image2?: {
-    lg: string;
-    sm: string;
-  };
-  image3?: {
-    lg: string;
-    sm: string;
-  };
   previewImage?: {
-    lg: string;
-    sm: string;
+    url: string;
+    key: string;
   };
   price?: string;
   quantity: number;

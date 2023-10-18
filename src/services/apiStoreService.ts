@@ -96,13 +96,13 @@ export const apiStoreService = createApi({
       }),
     }),
 
-    fetchProductsByCategoryId: build.query<IProduct[], string | undefined>({
+    fetchProductsByCategoryId: build.query<IProduct[], string>({
       query: (id) => ({
-        url: `products/category/${id}`,
+        url: `products/${id}`,
       }),
     }),
 
-    fetchProductById: build.query<IProduct[], string | undefined>({
+    fetchProductById: build.query<IProduct[], string>({
       query: (id) => ({
         url: `products/${id}`,
       }),
