@@ -3,10 +3,10 @@ import Category from "@/models/category";
 import connectMongoDB from "@/libs/mongodb";
 import { utapi } from "uploadthing/server";
 
-export async function POST(request: NextRequest) {
+export async function POST(req: NextRequest) {
   let uploadedFiles;
   await connectMongoDB();
-  const formData = await request.formData();
+  const formData = await req.formData();
   const name = formData.get("name");
 
   const files = formData.getAll("file");
@@ -26,10 +26,10 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function DELETE(request: NextRequest) {
+export async function DELETE(req: NextRequest) {
   await connectMongoDB();
-  const id = request.nextUrl.searchParams.get("id");
-  const key = request.nextUrl.searchParams.get("key");
+  const id = req.nextUrl.searchParams.get("id");
+  const key = req.nextUrl.searchParams.get("key");
 
   try {
     // Check if the ID is valid
@@ -57,16 +57,16 @@ export async function GET() {
   return NextResponse.json(categories);
 }
 
-export async function PUT(request: NextRequest) {
+export async function PUT(req: NextRequest) {
   let uploadedFiles;
   await connectMongoDB();
-  const formData = await request.formData();
+  const formData = await req.formData();
 
   const name = formData.get("name");
   const files = formData.getAll("file");
 
-  const id = request.nextUrl.searchParams.get("currentCategoryId");
-  const key = request.nextUrl.searchParams.get("key");
+  const id = req.nextUrl.searchParams.get("currentCategoryId");
+  const key = req.nextUrl.searchParams.get("key");
 
   console.log(key);
 
@@ -94,7 +94,7 @@ export async function PUT(request: NextRequest) {
         name: name ? name : currentCategory.name,
         image: fileData ? fileData : currentCategory.image,
       },
-      { new: true }
+      { new: true },
     );
 
     return NextResponse.json(editedCategory, { status: 200 });
@@ -102,7 +102,7 @@ export async function PUT(request: NextRequest) {
     console.error("Error updating category:", error);
     return NextResponse.json(
       { error: "Could not update category" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 }
