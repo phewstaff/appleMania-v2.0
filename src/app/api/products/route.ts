@@ -3,20 +3,6 @@ import Product from "@/models/product";
 import connectMongoDB from "@/libs/mongodb";
 import { utapi } from "uploadthing/server";
 
-export async function GET(req: NextRequest) {
-  await connectMongoDB();
-  const id = req.nextUrl.searchParams.get("id");
-  try {
-    const products = await Product.find({ categoryId: id });
-    return NextResponse.json(products);
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Could not find products" },
-      { status: 400 },
-    );
-  }
-}
-
 export async function DELETE(req: NextRequest) {
   await connectMongoDB();
   const id = req.nextUrl.searchParams.get("id");
