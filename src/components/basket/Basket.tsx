@@ -3,7 +3,6 @@ import { images } from "../../assets/constants";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import "./Basket.scss";
 import { basketSlice } from "../../store/reducers/BasketSlice";
-import { baseUrl } from "../../consts";
 
 const Basket: FC = () => {
   const dispatch = useAppDispatch();
@@ -14,11 +13,7 @@ const Basket: FC = () => {
       {basketProducts?.map((item) => (
         <div key={item._id} className="basket-product-container">
           <div className="image">
-            <img
-              src={baseUrl + item.previewImage?.lg}
-              alt=""
-              className="product-img"
-            />
+            <img src={item.previewImage?.url} alt="" className="product-img" />
           </div>
           <p className="name">{item.name}</p>
           <div className="product-actions">
@@ -28,7 +23,7 @@ const Basket: FC = () => {
                 <img
                   onClick={() => {
                     dispatch(
-                      basketSlice.actions.decreaseProductQuantity(item._id)
+                      basketSlice.actions.decreaseProductQuantity(item._id),
                     );
                   }}
                   src={images.minus}
@@ -37,7 +32,7 @@ const Basket: FC = () => {
                 <img
                   onClick={() => {
                     dispatch(
-                      basketSlice.actions.increaseProductQuantity(item._id)
+                      basketSlice.actions.increaseProductQuantity(item._id),
                     );
                   }}
                   src={images.plus}
@@ -50,7 +45,7 @@ const Basket: FC = () => {
               <button
                 onClick={() => {
                   dispatch(
-                    basketSlice.actions.removeProductFromBasket(item._id)
+                    basketSlice.actions.removeProductFromBasket(item._id),
                   );
                 }}
                 className="remove"
