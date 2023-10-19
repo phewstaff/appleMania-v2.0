@@ -2,8 +2,16 @@ import React, { useState } from "react";
 // import { useNavigate } from "react-router-dom";
 import { apiStoreService } from "../../services/apiStoreService";
 import "./Categories.scss";
-import CategoryDropdown from "./CategoryDropdown";
 import Image from "next/image";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { MoreHorizontal } from "lucide-react";
+import { Button } from "../ui/button";
 
 type CategoryProps = {
   refetch: () => void;
@@ -28,42 +36,45 @@ const Category: React.FC<CategoryProps> = ({
   setKey,
   admin,
 }) => {
-  const [deleteCategory, response] =
-    apiStoreService.useDeleteCategoryMutation();
+  const [deleteCategory] = apiStoreService.useDeleteCategoryMutation();
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   // const navigate = useNavigate();
 
   const key = image.key;
   return (
-    <div key={id} className="category-card">
-      <CategoryDropdown
-        setCurrentCategoryId={setCurrentCategoryId}
-        setKey={setKey}
-        id={id}
-        ImageKey={key}
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        onUpdate={() => {
-          setValue(name);
-        }}
-        onDelete={() => {
-          return deleteCategory({ id, key }).then(() => {
-            refetch();
-          });
-        }}
-      />
+    <div key={id} className="category-card relative mt-2 rounded-2xl ">
       {!admin && (
-        <div
-          onClick={() => {
-            setIsOpen(true);
-          }}
-          className="dropdown-dots"
-        >
-          <div className="dropdown-dot"></div>
-          <div className="dropdown-dot"></div>
-          <div className="dropdown-dot"></div>
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            className="absolute right-0 rounded-2xl bg-slate-50 text-slate-700  shadow-sm shadow-black "
+            asChild
+          >
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <MoreHorizontal className="text-inherit" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem
+              className="hover:!bg-destructive hover:text-white"
+              onClick={() => {
+                deleteCategory({ id, key });
+                refetch();
+              }}
+            >
+              Delete
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() => {
+                setValue(name);
+                setCurrentCategoryId(id);
+                setKey(key);
+              }}
+            >
+              Update
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       )}
       <div className="category-image">
         <Image

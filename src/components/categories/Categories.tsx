@@ -9,7 +9,7 @@ import { useAppSelector } from "@/hooks/redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import Loading from "@/components/loading";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -80,19 +80,20 @@ const Categories: React.FC = () => {
         {!admin && (
           <div className="flex flex-col items-center gap-1">
             <Input
+              value={value}
               onChangeCapture={(e) => {
                 setValue(e.currentTarget.value);
               }}
               {...register("name")}
               placeholder="Name"
-              className="rounded-full bg-slate-100"
+              className="rounded-full  bg-slate-100"
             />
 
             <Input
               {...register("file")}
               onChange={handleFileChange}
               name="image"
-              className="cursor-pointer rounded-full bg-slate-700 hover:bg-slate-900"
+              className="cursor-pointer rounded-full bg-slate-700 text-white hover:bg-slate-900"
               type="file"
             />
 
