@@ -11,6 +11,8 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { ChangeEvent, useState } from "react";
 import Loading from "@/components/loading";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
 const categoryFormSchema = yup
   .object()
@@ -76,33 +78,31 @@ const Categories: React.FC = () => {
       {isLoading && <Loading />}
       <div className="categories-container">
         {!admin && (
-          <div className="add-category">
-            <input
+          <div className="flex flex-col items-center gap-1">
+            <Input
               onChangeCapture={(e) => {
                 setValue(e.currentTarget.value);
               }}
               {...register("name")}
               placeholder="Name"
-              className="category-name-input"
-            ></input>
-            <label className="choose-image">
-              Choose image
-              <input
-                {...register("file")}
-                onChange={handleFileChange}
-                name="image"
-                type="file"
-                className="choose-image-input"
-              />
-            </label>
+              className="rounded-full bg-slate-100"
+            />
 
-            <button
+            <Input
+              {...register("file")}
+              onChange={handleFileChange}
+              name="image"
+              className="cursor-pointer rounded-full bg-slate-700 hover:bg-slate-900"
+              type="file"
+            />
+
+            <Button
               type="submit"
-              className="submit-button"
+              className="h-8 w-1/2 rounded-full"
               onClick={handleSubmit(addOrUpdateCategory)}
             >
               {!currentCategoryId ? <>Post category</> : <>Update Category</>}
-            </button>
+            </Button>
           </div>
         )}
         {error && <h1>Error</h1>}

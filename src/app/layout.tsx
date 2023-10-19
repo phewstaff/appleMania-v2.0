@@ -23,7 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${roboto.variable} font-sans`}>
+      <body className={`${roboto.variable} bg-gray-100 font-sans`}>
         <Providers>{children}</Providers>
       </body>
     </html>
