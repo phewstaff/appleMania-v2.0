@@ -1,14 +1,12 @@
 import Categories from "@/components/categories/Categories";
-import Layout from "@/components/layout/Layout";
-import { FC } from "react";
+import Header from "@/components/layout/Header";
 
-interface pageProps {}
-
-const page: FC<pageProps> = ({}) => {
+const page = () => {
   return (
-    <Layout basket={true} backButton={true} title={"Categories"}>
+    <>
+      <Header title={"Categories"} />
       <Categories />
-    </Layout>
+    </>
   );
 };
 
