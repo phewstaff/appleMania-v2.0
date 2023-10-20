@@ -1,9 +1,7 @@
 import Providers from "@/utils/provider";
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter, Roboto } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
+import { Roboto } from "next/font/google";
 
 const roboto = Roboto({
   subsets: ["latin", "cyrillic"],

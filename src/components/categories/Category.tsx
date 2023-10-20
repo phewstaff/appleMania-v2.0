@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import React from "react";
 import { apiStoreService } from "../../services/apiStoreService";
 import "./Categories.scss";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -38,7 +38,7 @@ const Category: React.FC<CategoryProps> = ({
 }) => {
   const [deleteCategory] = apiStoreService.useDeleteCategoryMutation();
 
-  // const navigate = useNavigate();
+  const router = useRouter();
 
   const key = image.key;
   return (
@@ -80,7 +80,7 @@ const Category: React.FC<CategoryProps> = ({
         <Image
           height={140}
           width={128}
-          // onClick={() => navigate(`/products/category/${id}`)}
+          onClick={() => router.push(`/products/${id}`)}
           src={image.url}
           alt=""
         />

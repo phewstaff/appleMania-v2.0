@@ -6,6 +6,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { useAppSelector } from "@/hooks/redux";
+import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
+import { Button } from "../ui/button";
 
 const productFormSchema = yup
   .object()
@@ -70,46 +73,47 @@ const Products: FC<Props> = ({ id }) => {
 
   return (
     <>
-      <div className="products-page-container">
-        {isLoading && <h1>Loading</h1>}
-        {error && <h1>Failed to get products</h1>}
+      <div className="m-auto flex max-w-md flex-col items-center">
         {!admin && (
-          <div className="add-product">
-            <input
+          <div className="flex flex-col items-center gap-1">
+            <Input
               {...register("name")}
               placeholder="Name"
-              className="product-input"
-              type="text"
-            ></input>
+              className="rounded-full  bg-slate-100"
+            />
 
-            <input
+            <Input
               {...register("price")}
               placeholder="Price"
-              type="text"
-              className="product-input"
-            ></input>
+              className="rounded-full  bg-slate-100"
+            />
 
-            <textarea
-              placeholder="Description"
+            <Textarea
               {...register("description")}
               name="description"
-              className="product-input"
+              placeholder="Description"
+              className="rounded-2xl  bg-slate-100"
             />
-            <label className="choose-image">
-              Choose preview image
-              <input
-                onChange={(event) => handleFileChange(event, setPreviewFile)}
-                name="image"
-                type="file"
-                className="choose-image-input"
-              />
-            </label>
-            <label className="submit-button" onClick={handleSubmit(submitForm)}>
-              Post Product
-            </label>
+
+            <Input
+              onChange={(event) => handleFileChange(event, setPreviewFile)}
+              name="image"
+              type="file"
+              className="cursor-pointer rounded-full bg-slate-700 text-white hover:bg-slate-900"
+            />
+
+            <Button
+              type="submit"
+              className="h-8 w-1/2 rounded-full"
+              onClick={handleSubmit(submitForm)}
+            >
+              Post product
+            </Button>
           </div>
         )}
         <div className="product-container">
+          {isLoading && <h1>Loading</h1>}
+          {error && <h1>Failed to get products</h1>}
           {products &&
             products.map((item) => {
               return (

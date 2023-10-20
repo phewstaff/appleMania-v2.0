@@ -1,18 +1,17 @@
 "use client";
 
-import Category from "./Category";
-
-import "./Categories.scss";
-import { apiStoreService } from "@/services/apiStoreService";
-import { ToastContainer } from "react-toastify";
-import { useAppSelector } from "@/hooks/redux";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { useForm } from "react-hook-form";
-import { useState } from "react";
 import Loading from "@/components/loading";
-import { Input } from "../ui/input";
+import { useAppSelector } from "@/hooks/redux";
+import { apiStoreService } from "@/services/apiStoreService";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { ToastContainer } from "react-toastify";
+import * as yup from "yup";
 import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import "./Categories.scss";
+import Category from "./Category";
 
 const categoryFormSchema = yup
   .object()
