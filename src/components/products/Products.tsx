@@ -1,5 +1,5 @@
 "use client";
-import { FC, useEffect, useState } from "react";
+import { FC, SetStateAction, useEffect, useState } from "react";
 import "./Products.scss";
 import { apiStoreService } from "@/services/apiStoreService";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -9,6 +9,11 @@ import { useAppSelector } from "@/hooks/redux";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
+import { UploadButton } from "@/utils/uploadthing";
+import { UploadFileResponse } from "uploadthing/client";
+
+import "@uploadthing/react/styles.css";
+import CustomUploader from "../CustomUploader";
 
 const productFormSchema = yup
   .object()
@@ -32,13 +37,6 @@ const Products: FC<Props> = ({ id }) => {
 
   const [selectedPreviewFile, setPreviewFile] = useState<File | null>(null);
 
-  const handleFileChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    setFunc: React.Dispatch<React.SetStateAction<File | null>>,
-  ): void => {
-    setFunc(event.target.files![0]);
-  };
-
   const {
     register,
     handleSubmit,
@@ -46,7 +44,7 @@ const Products: FC<Props> = ({ id }) => {
   } = useForm<FormData>({
     resolver: yupResolver(productFormSchema),
   });
-
+  const [files, setFiles] = useState<UploadFileResponse[] | undefined>([]);
   const [postProduct, { isError }] = apiStoreService.useCreateProductMutation();
 
   const submitForm = async (data: FormData) => {
@@ -54,7 +52,9 @@ const Products: FC<Props> = ({ id }) => {
     formData.append("name", data.name);
     formData.append("price", data.price);
     formData.append("description", data.description);
-    formData.append("previewImage", selectedPreviewFile as File);
+    if (files) {
+      formData.append("previewImage", JSON.stringify(files[0]));
+    }
 
     await postProduct(formData);
     invalidateProducts();
@@ -75,7 +75,7 @@ const Products: FC<Props> = ({ id }) => {
     <>
       <div className="m-auto flex max-w-md flex-col items-center">
         {!admin && (
-          <div className="flex flex-col items-center gap-1">
+          <div className="flex w-full flex-col items-center gap-1">
             <Input
               {...register("name")}
               placeholder="Name"
@@ -92,15 +92,10 @@ const Products: FC<Props> = ({ id }) => {
               {...register("description")}
               name="description"
               placeholder="Description"
-              className="rounded-2xl  bg-slate-100"
+              className="rounded-2xl bg-slate-100"
             />
 
-            <Input
-              onChange={(event) => handleFileChange(event, setPreviewFile)}
-              name="image"
-              type="file"
-              className="cursor-pointer rounded-full bg-slate-700 text-white hover:bg-slate-900"
-            />
+            <CustomUploader setFiles={setFiles} />
 
             <Button
               type="submit"
