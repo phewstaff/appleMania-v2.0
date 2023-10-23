@@ -30,7 +30,8 @@
     "src/models/category.js",
     "src/libs/mongodb.js",
     "src/app/api/categories/route.ts",
-    "tailwind.config.ts"
+    "tailwind.config.ts",
+    "src/app/api/products/route.js"
   ],
   "exclude": ["node_modules"]
 }

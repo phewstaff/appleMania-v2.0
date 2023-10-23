@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { images } from "../../assets/constants";
+import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import "./Basket.scss";
 import { basketSlice } from "../../store/reducers/BasketSlice";
@@ -13,7 +14,13 @@ const Basket: FC = () => {
       {basketProducts?.map((item) => (
         <div key={item._id} className="basket-product-container">
           <div className="image">
-            <img src={item.previewImage?.url} alt="" className="product-img" />
+            <Image
+              width={100}
+              height={100}
+              alt=""
+              src={item.image.url}
+              className="product-img"
+            />
           </div>
           <p className="name">{item.name}</p>
           <div className="product-actions">

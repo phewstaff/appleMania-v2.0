@@ -1,4 +1,4 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import Product from "@/models/product";
 import connectMongoDB from "@/libs/mongodb";
 import { utapi } from "uploadthing/server";
