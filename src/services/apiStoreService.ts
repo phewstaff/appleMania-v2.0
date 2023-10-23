@@ -99,6 +99,7 @@ export const apiStoreService = createApi({
     fetchProductsByCategoryId: build.query<IProduct[], string>({
       query: (id) => ({
         url: `products/${id}`,
+        params: { categoryId: id },
       }),
     }),
 
