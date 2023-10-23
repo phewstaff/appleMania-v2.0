@@ -12,7 +12,7 @@ export async function GET() {
   } catch (error) {}
 }
 
-export async function DELETE(req: NextRequest) {
+export async function DELETE(req) {
   await connectMongoDB();
   const id = req.nextUrl.searchParams.get("id");
   const key = req.nextUrl.searchParams.get("key");
@@ -31,13 +31,13 @@ export async function DELETE(req: NextRequest) {
     }
 
     return NextResponse.json({ message: "Product was deleted" });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error deleting Product:", error);
     return NextResponse.json({ error: error.message }, { status: 400 });
   }
 }
 
-export async function POST(req: NextRequest) {
+export async function POST(req) {
   await connectMongoDB();
   const formData = await req.formData();
   const name = formData.get("name");
