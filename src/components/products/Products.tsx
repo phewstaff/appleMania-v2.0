@@ -9,11 +9,11 @@ import { useAppSelector } from "@/hooks/redux";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
-import { UploadButton } from "@/utils/uploadthing";
 import { UploadFileResponse } from "uploadthing/client";
 
 import "@uploadthing/react/styles.css";
 import CustomUploader from "../CustomUploader";
+import Image from "next/image";
 
 const productFormSchema = yup
   .object()
@@ -26,11 +26,7 @@ const productFormSchema = yup
 
 type FormData = yup.InferType<typeof productFormSchema>;
 
-type Props = {
-  id: string;
-};
-
-const Products: FC<Props> = ({ id }) => {
+const Products = ({ params }: { params: { id: string } }) => {
   const admin = useAppSelector((state) => {
     return state.auth.admin;
   });
@@ -52,8 +48,9 @@ const Products: FC<Props> = ({ id }) => {
     formData.append("name", data.name);
     formData.append("price", data.price);
     formData.append("description", data.description);
+    formData.append("categoryId", params.id);
     if (files) {
-      formData.append("previewImage", JSON.stringify(files[0]));
+      formData.append("image", JSON.stringify(files[0]));
     }
 
     await postProduct(formData);
@@ -65,7 +62,7 @@ const Products: FC<Props> = ({ id }) => {
     data: products,
     isLoading,
     error,
-  } = apiStoreService.useFetchProductsByCategoryIdQuery(id);
+  } = apiStoreService.useFetchProductsByCategoryIdQuery(params.id);
 
   useEffect(() => {
     invalidateProducts();
@@ -111,6 +108,7 @@ const Products: FC<Props> = ({ id }) => {
           {error && <h1>Failed to get products</h1>}
           {products &&
             products.map((item) => {
+              console.log(item);
               return (
                 <div
                   key={item._id}
@@ -120,7 +118,12 @@ const Products: FC<Props> = ({ id }) => {
                   className="product-card"
                 >
                   <div className="product-image">
-                    <img src={item.previewImage?.url} />
+                    <Image
+                      width={100}
+                      height={100}
+                      alt=""
+                      src={item.image.url}
+                    />
                   </div>
                   <h3 className="product-name">{item.name}</h3>
                   <p className="price">{item.price} руб</p>

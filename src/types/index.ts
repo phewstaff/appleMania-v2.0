@@ -1,7 +1,9 @@
 export interface IProduct {
   _id?: string;
   name?: string;
-  previewImage?: {
+  image: {
+    id: string;
+    size: number;
     url: string;
     key: string;
   };
