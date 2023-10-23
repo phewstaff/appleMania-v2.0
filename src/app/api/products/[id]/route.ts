@@ -4,10 +4,10 @@ import connectMongoDB from "@/libs/mongodb";
 
 export async function GET(req: NextRequest) {
   await connectMongoDB();
-  console.log("going here");
   const categoryId = req.nextUrl.searchParams.get("categoryId");
+  console.log(categoryId);
   try {
-    const products = await Product.find(categoryId);
+    const products = await Product.find({ categoryId: categoryId });
 
     if (!products[0]) {
       throw new Error("No products found");

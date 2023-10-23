@@ -3,6 +3,15 @@ import Product from "@/models/product";
 import connectMongoDB from "@/libs/mongodb";
 import { utapi } from "uploadthing/server";
 
+export async function GET() {
+  await connectMongoDB();
+
+  try {
+    const products = await Product.find();
+    return NextResponse.json(products);
+  } catch (error) {}
+}
+
 export async function DELETE(req: NextRequest) {
   await connectMongoDB();
   const id = req.nextUrl.searchParams.get("id");
@@ -26,4 +35,27 @@ export async function DELETE(req: NextRequest) {
     console.error("Error deleting Product:", error);
     return NextResponse.json({ error: error.message }, { status: 400 });
   }
+}
+
+export async function POST(req: NextRequest) {
+  await connectMongoDB();
+  const formData = await req.formData();
+  const name = formData.get("name");
+  const price = formData.get("price");
+  const description = formData.get("description");
+  const categoryId = formData.get("categoryId");
+  const image = JSON.parse(formData.get("image"));
+
+  const body = { name, price, description, categoryId, image };
+  console.log(body);
+  console.log(image);
+
+  if (!body) {
+    throw new Error("Request body is empty");
+  }
+
+  try {
+    const product = Product.create({ ...body, image });
+    return NextResponse.json("Product successfully added");
+  } catch (error) {}
 }
