@@ -13,6 +13,7 @@
 - TypeScript
 - Redux-toolkit
 - RTK Query
+- Tailwind css
 - Shadcn/ui
 - zod + React-hook-form
 
