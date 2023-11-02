@@ -14,6 +14,7 @@ import { UploadFileResponse } from "uploadthing/client";
 import "@uploadthing/react/styles.css";
 import CustomUploader from "../CustomUploader";
 import Image from "next/image";
+import { Loader2 } from "lucide-react";
 
 const productFormSchema = yup
   .object()
@@ -40,8 +41,9 @@ const Products = ({ params }: { params: { id: string } }) => {
   } = useForm<FormData>({
     resolver: yupResolver(productFormSchema),
   });
-  const [files, setFiles] = useState<UploadFileResponse[] | undefined>([]);
-  const [postProduct, { isError }] = apiStoreService.useCreateProductMutation();
+  const [files, setFiles] = useState<UploadFileResponse[] | undefined>();
+  const [postProduct, { isError, isLoading: isProductLoading }] =
+    apiStoreService.useCreateProductMutation();
 
   const submitForm = async (data: FormData) => {
     const formData = new FormData();
@@ -52,7 +54,6 @@ const Products = ({ params }: { params: { id: string } }) => {
     if (files) {
       formData.append("image", JSON.stringify(files[0]));
     }
-
     await postProduct(formData);
     invalidateProducts();
   };
@@ -95,11 +96,19 @@ const Products = ({ params }: { params: { id: string } }) => {
             <CustomUploader setFiles={setFiles} />
 
             <Button
+              disabled={!files}
               type="submit"
               className="h-8 w-1/2 rounded-full"
               onClick={handleSubmit(submitForm)}
             >
-              Post product
+              {isProductLoading ? (
+                <Loader2
+                  size={45}
+                  className="m-auto mt-5 animate-spin text-white"
+                />
+              ) : (
+                <>Post product</>
+              )}
             </Button>
           </div>
         )}
